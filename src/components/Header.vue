@@ -100,6 +100,26 @@ $primaryOrange: #EB7A35;
   100% { transform: translateY(0); opacity: 1; }
 }
 
+//ピクセルをパーセントで出力
+@function px($size,$width:640){
+	$rate: $size / 640*(640/$width);
+	@return $rate * 100 * 1%;
+}
+
+//640px時点でのvminを計算
+$viewport:640;
+@function get_vmin($size, $viewport:$viewport){
+	$rate: 100 / $viewport;
+	@return $rate * $size * 1vmin;
+}
+
+//vminでのフォントサイズを出力
+@mixin vmin($font_size:10){
+	font-size: $font_size * 1px*$viewport/640;
+	font-size: $font_size / 10 * 1rem*$viewport/640;
+	font-size: get_vmin($font_size)*$viewport/640;
+}
+
 header {
   padding: 9px 45px 9px 30px;
   display: flex;

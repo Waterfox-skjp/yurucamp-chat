@@ -118,10 +118,11 @@ $primaryBlue: #71C3D2;
 $primaryOrange: #EB7A35;
 
 main {
+  padding: 30px 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  min-height: 100vh;
 }
 .icon {
   margin: 0 auto 15px;

@@ -66,6 +66,26 @@ export default {
 $primaryBlue: #71C3D2;
 $primaryOrange: #EB7A35;
 
+//ピクセルをパーセントで出力
+@function px($size,$width:640){
+	$rate: $size / 640*(640/$width);
+	@return $rate * 100 * 1%;
+}
+
+//640px時点でのvminを計算
+$viewport:640;
+@function get_vmin($size, $viewport:$viewport){
+	$rate: 100 / $viewport;
+	@return $rate * $size * 1vmin;
+}
+
+//vminでのフォントサイズを出力
+@mixin vmin($font_size:10){
+	font-size: $font_size * 1px*$viewport/640;
+	font-size: $font_size / 10 * 1rem*$viewport/640;
+	font-size: get_vmin($font_size)*$viewport/640;
+}
+
 html, body, header, main, aside, footer, section, article, nav,
 h1, h2, h3, h4, h5, h6,
 table, caption, tbody, tfoot, thead, tr, th, td, form,
@@ -85,7 +105,7 @@ body {
   font-family:"游ゴシック Medium",YuGothic,YuGothicM,"Hiragino Kaku Gothic ProN","Hiragino Kaku Gothic Pro",メイリオ,Meiryo,sans-serif;
   font-size: 62.5%;
   color: #333;
-  min-width: 1015px;
+  min-width: 1000px;
 }
 table {
 	border-collapse: collapse;
@@ -95,14 +115,17 @@ th, td { text-align: left; }
 ul, ol, li { list-style: none; }
 a { color: $primaryOrange; text-decoration: none; }
 #container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  height: 100%;
   background: url(./assets/bg-main.png) no-repeat center center;
   background-size: cover;
-  &.header { padding-top: 50px; }
+  &.header {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
 }
-.inner { margin: 0 auto; width: 1000px; }
+.inner { margin: 0 auto; width: 100%; max-width: 1000px; }
 .modal-setting {
   position: fixed;
   top: 0;

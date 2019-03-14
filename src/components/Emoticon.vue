@@ -146,4 +146,8 @@ $primaryOrange: #EB7A35;
     }
   }
 }
+
+@media (max-width: 640px) {
+  .emoticon-wrap { display: none; }
+}
 </style>

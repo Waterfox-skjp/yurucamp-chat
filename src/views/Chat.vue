@@ -148,9 +148,30 @@ $primaryOrange: #EB7A35;
   100% { transform: translateX(0); opacity: 1; }
 }
 
+//ピクセルをパーセントで出力
+@function px($size,$width:640){
+	$rate: $size / 640*(640/$width);
+	@return $rate * 100 * 1%;
+}
+
+//640px時点でのvminを計算
+$viewport:640;
+@function get_vmin($size, $viewport:$viewport){
+	$rate: 100 / $viewport;
+	@return $rate * $size * 1vmin;
+}
+
+//vminでのフォントサイズを出力
+@mixin vmin($font_size:10){
+	font-size: $font_size * 1px*$viewport/640;
+	font-size: $font_size / 10 * 1rem*$viewport/640;
+	font-size: get_vmin($font_size)*$viewport/640;
+}
+
 main {
   margin: auto 0 0;
   padding-bottom: 30px;
+  min-width: 1015px;
   height: 100%;
   background-position: center center;
   background-size: cover;
@@ -162,7 +183,8 @@ main {
   display: flex;
   flex-direction: column;
   height: 100%;
-  .output-area { overflow-y: scroll; height: 100%;
+  .output-area { overflow-y: scroll; height: 100%; -webkit-overflow-scrolling: touch;
+    .inner { width: 100%; max-width: 1000px; }
     ul { padding: 30px 0;
       &.loaded li {
         .icon-area { animation: scale-up-center 0.1s ease-in-out; }
