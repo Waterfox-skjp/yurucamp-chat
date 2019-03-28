@@ -35,7 +35,9 @@ export default {
   data() {
     return {
       modalSetting: false,
-      loading: false
+      loading: false,
+      width: window.innerWidth,
+      height: window.innerHeight
     }
   },
   mounted: function() {
@@ -57,7 +59,17 @@ export default {
       } else {
         document.title = 'ゆるキャン△風 チャット'
       }
+    },
+    handleResize() {
+      this.width = window.innerWidth
+      this.height = window.innerHeight
     }
+  },
+  created: function () {
+    window.addEventListener('resize', this.handleResize, false)
+  },
+  beforeDestroy: function () {
+    window.removeEventListener('resize', this.handleResize, false)
   }
 }
 </script>
