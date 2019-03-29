@@ -1,5 +1,6 @@
 <template>
-  <main :style="{ backgroundImage: `url('${bgImage}')` }">
+  <main>
+    <div class="bg-chat" :style="{ backgroundImage: `url('${bgImage}')` }"></div>
     <div class="chat-area">
       <div class="output-area" ref="scrollHeight">
         <div class="inner" ref="innerHeight">
@@ -21,7 +22,7 @@
         <div class="inner">
           <div class="inner-box">
             <Icon />
-            <textarea class="textarea" v-model="text" rows="7" cols="60" placeholder="Alt + Enter で送信" @keyup.alt.enter="submit"></textarea>
+            <textarea class="text-area" v-model="text" rows="7" cols="60" placeholder="Alt + Enter で送信" @keyup.alt.enter="submit"></textarea>
             <Emoticon />
             <button class="btn-submit" @click="submit">送信する</button>
           </div>
@@ -52,7 +53,8 @@ export default {
       postsLoad: false,
       unsubscribe: null,
       modalIcon: false,
-      modalEmoticon: false
+      modalEmoticon: false,
+      height: window.innerHeight
     }
   },
   computed: {
@@ -68,6 +70,7 @@ export default {
         this.posts = w
         this.postsLoad = true
       })
+    window.addEventListener('resize', this.handleResize, false)
   },
   watch: {
     posts() {
@@ -75,6 +78,7 @@ export default {
         var innerHeight = this.$refs.innerHeight.offsetHeight
         const scrollHeight = this.$refs.scrollHeight
         scrollHeight.scrollTo(0, innerHeight)
+        window.scrollTo(0, this.height)
       })
     }
   },
@@ -91,9 +95,13 @@ export default {
         }).then(
         () => this.text = ''
       ).catch( e => alert( e ) )
+    },
+    handleResize() {
+      this.height = window.innerHeight
     }
   },
-  beforeDestroy() {
+  beforeDestroy: function () {
+    window.removeEventListener('resize', this.handleResize, false)
     this.unsubscribe()
   },
   filters: {
@@ -173,10 +181,17 @@ main {
   padding-bottom: 30px;
   min-width: 1015px;
   height: 100%;
+  overflow: hidden;
+}
+.bg-chat {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-position: center center;
   background-size: cover;
   transition: background-image .3s;
-  overflow: hidden;
 }
 .chat-area {
   position: relative;
@@ -277,7 +292,7 @@ main {
       background: #FFF;
       display: flex;
       align-items: flex-end;
-      .textarea {
+      .text-area {
         margin-right: 1.5%;
         padding: .5em;
         width: 66.5%;
@@ -312,6 +327,91 @@ main {
           font-weight: 900;
         }
         &:hover { background: #dc7330; }
+      }
+    }
+  }
+}
+@media screen and (max-width: 640px) {
+  main {
+    padding-bottom: px(115);
+    min-width: 0;
+    background-attachment: fixed;
+  }
+  .chat-area { display: block;
+    .output-area { overflow-y: visible;
+      ul { padding: px(30); }
+      li { padding-bottom: 4.6vmin;
+        .icon-area {
+          margin-right: 2%;
+          display: flex;
+          align-items: flex-end;
+          width: 13%;
+          height: 10vmin;
+        }
+        .text-area { max-width: 63%; width: auto; padding-left: 3vmin;
+          p {
+            border: 1px solid #FFF;
+            border-left: none;
+            border-radius: 1vmin;
+            @include vmin(26);
+            &:before {
+              left: -3.05vmin;
+              width: calc(3vmin + 1px);
+              height: 3vmin;
+              background: url(../assets/fukidashi-haji-min.svg) no-repeat;
+              background-size: 100% auto;
+            }
+            &:after { width: 1px; height: calc(100% - 3vmin); }
+          }
+        }
+        .time-area {
+          margin-left: 2%;
+          width: 20%;
+          line-height: 1.2;
+          @include vmin(20);
+        }
+        .name { @include vmin(20); }
+        &.self {
+          .icon-area { margin-left: 2%; }
+          .text-area { padding-right: 3vmin;
+            p { border-left: 1px solid #FFF; border-right: none;
+              &:before { right: -3.05vmin; }
+            }
+          }
+          .time-area { margin-right: 2%; text-align: right; }
+        }
+        &:not(:last-child) { margin-bottom: px(10,580); }
+      }
+    }
+    .input-area { padding: 0; position: fixed; bottom: 0; left: 0; width: 100%;
+      .inner-box { padding: px(30); border-radius: 0;
+        .text-area { width: 73%; @include vmin(26); }
+        .btn-submit {
+          padding: px(18) 0;
+          border-radius: 1vmin;
+          width: 12%;
+          font-size: 0;
+          &:before { margin-right: 0; @include vmin(24); }
+        }
+      }
+    }
+  }
+  @media (orientation: landscape){
+    main { padding-bottom: px(66); }
+    .chat-area {
+      .output-area {
+        ul { padding: px(15); }
+        li { padding-bottom: 4vmin;
+          .icon-area { width: 7.5%; height: 9vmin; }
+          .text-area { max-width: 68.5%; }
+          &:not(:last-child) { margin-bottom: px(20,580); }
+        }
+      }
+      .input-area {
+        .inner-box { padding: px(17) px(15);
+          .text-area { width: 75%; }
+          .btn-submit { padding: px(9.5) 0; }
+        }
       }
     }
   }

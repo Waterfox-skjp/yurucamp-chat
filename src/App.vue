@@ -35,9 +35,7 @@ export default {
   data() {
     return {
       modalSetting: false,
-      loading: false,
-      width: window.innerWidth,
-      height: window.innerHeight
+      loading: false
     }
   },
   mounted: function() {
@@ -59,17 +57,7 @@ export default {
       } else {
         document.title = 'ゆるキャン△風 チャット'
       }
-    },
-    handleResize() {
-      this.width = window.innerWidth
-      this.height = window.innerHeight
     }
-  },
-  created: function () {
-    window.addEventListener('resize', this.handleResize, false)
-  },
-  beforeDestroy: function () {
-    window.removeEventListener('resize', this.handleResize, false)
   }
 }
 </script>
@@ -183,6 +171,25 @@ a { color: $primaryOrange; text-decoration: none; }
     @keyframes load {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+  }
+}
+@media screen and (max-width: 640px) {
+  body { min-width: 0; }
+  #container {
+    &.header {
+      padding-top: px(100);
+      display: block;
+      height: auto;
+      min-height: 100vh;
+    }
+  }
+  .inner { max-width: none; }
+  @media (orientation: landscape){
+    #container {
+      &.header {
+        padding-top: px(56);
+      }
     }
   }
 }

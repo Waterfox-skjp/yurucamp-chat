@@ -124,6 +124,7 @@ header {
   padding: 9px 45px 9px 30px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -132,9 +133,9 @@ header {
   height: 50px;
   color: #FFF;
   background: $primaryBlue;
-  .logo {
-    a { display: block; height: 100%; line-height: 0; }
-    img { height: 100%; }
+  .logo { width: 300px;
+    a { display: block; width: 100%; line-height: 0; }
+    img { width: 100%; }
   }
   .nav-wrap { position: relative;
     nav {
@@ -193,6 +194,23 @@ header {
   .nav-leave-active { animation: slide-down 0.2s ease-out reverse; }
   .nav-enter-to, .nav-leave { transform: translateY(0); opacity: 1; }
   .nav-enter, .nav-leave-to { transform: translateY(-30px); opacity: 0; }
+  }
+}
+@media screen and (max-width: 640px) {
+  header { padding: px(24) px(30); height: auto;
+    .logo { width: 83%; }
+    .nav-wrap { position: relative; width: px(87,580);
+      .icon { justify-content: flex-end;
+        &:after { margin-left: .2em; @include vmin(42); }
+        img { width: px(52,87); }
+      }
+    }
+  }
+  @media (orientation: landscape){
+    header { padding: px(13.6) px(15);
+      .logo { width: 44.4%; }
+      .nav-wrap { width: 8%; }
+    }
   }
 }
 </style>
