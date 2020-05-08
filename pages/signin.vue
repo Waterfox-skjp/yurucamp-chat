@@ -81,10 +81,9 @@ export default {
         firebase.auth()
           .signInWithEmailAndPassword(this.userInfo.userid, this.userInfo.password)
           .then((result) => {
-            const { uid, displayName } = result.user
-            this.$store.commit('user', { uid, displayName })
+            const { apiKey, appName, authDomain, createdAt, displayName, email, emailVerified, isAnonymous, lastLoginAt, phoneNumber, photoURL, providerData, redirectEventId, stsTokenManager, tenantId, uid } = result.user
+            this.$store.commit('user', { apiKey, appName, authDomain, createdAt, displayName, email, emailVerified, isAnonymous, lastLoginAt, phoneNumber, photoURL, providerData, redirectEventId, stsTokenManager, tenantId, uid })
             this.$store.commit('loginStatus', true)
-
             this.userInfo.password = ''
             if (this.userInfo.rememberme) {
               localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
@@ -128,12 +127,12 @@ export default {
             this.$route.query.redirect ? this.$route.query.redirect : '/'
           )
         })
-        // .catch((error) => {
-        //   const errorCode = error.code
-        //   const errorMessage = error.message
-        //   console.log(errorCode, errorMessage)
-        //   alert('ログインに失敗しました')
-        // })
+        .catch((error) => {
+          const errorCode = error.code
+          const errorMessage = error.message
+          console.log(errorCode, errorMessage)
+          alert('ログインに失敗しました')
+        })
         .catch(() => {
           alert('ログインに失敗しました')
         })

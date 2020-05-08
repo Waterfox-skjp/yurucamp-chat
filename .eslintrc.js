@@ -13,6 +13,7 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    "no-console": "off",
     "vue/html-self-closing": ["off", {
       "html": {
         "void": "always",

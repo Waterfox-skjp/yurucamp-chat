@@ -25,3 +25,9 @@ export const mutations = {
     state.bgImage = y
   }
 }
+
+export const getters = {
+  isAuthenticated (state) {
+    return !!state.user
+  }
+}

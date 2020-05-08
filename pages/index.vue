@@ -54,6 +54,7 @@ import firebase from '~/plugins/firebase.js'
 const db = firebase.firestore()
 
 export default {
+  middleware: 'authenticated',
   name: 'Chat',
   components: {
     Nl2br,

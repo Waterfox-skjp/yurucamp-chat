@@ -83,7 +83,8 @@ export default {
       firebase.auth().signOut()
         .then(() => {
           this.$router.push('/signin')
-          window.location.reload() // 保持してた不要な情報を一度クリア(vuexはきえない)
+          this.$store.commit('user', {})
+          this.$store.commit('loginStatus', false)
         })
         .catch((error) => {
           const errorMessage = error.message

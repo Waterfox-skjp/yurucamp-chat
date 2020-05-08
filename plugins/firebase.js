@@ -15,3 +15,5 @@ if (!firebase.apps.length) {
 export default firebase
 
 export const auth = firebase.auth()
+
+// firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
